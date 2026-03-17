@@ -23,12 +23,6 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
-    <div class="bg-white border-b border-gray-200 px-4 py-2">
-        <span class="text-gray-700 text-sm font-medium">Detail Page</span>
-    </div>
-
-    <div class="border-2 border-blue-400 mx-0">
-
         <!-- NAVBAR -->
         <nav class="bg-[#2c2c2c] text-white px-5 py-3 flex items-center justify-between">
             <span class="font-bold text-base tracking-wide">Logo</span>
