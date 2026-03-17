@@ -1,7 +1,7 @@
 <?php
 namespace App\Core;
  
-use App\Controllers\StudentController;
+use App\Controllers\hobbyinterest;
  
 class Router
 {
@@ -33,7 +33,7 @@ class Router
       $pattern = '#^' . $pattern . '$#';
       if (preg_match($pattern, $uri, $matches)) {
         array_shift($matches);
-        require_once '../app/controllers/' . $route['controller'] . '.php';
+        require_once  '../app/controllers/' . $route['controller'] . '.php';
  
         $controllerClass = 'App\\Controllers\\' . $route['controller'];
         $controller = new $controllerClass();

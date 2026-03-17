@@ -1,12 +1,10 @@
 <?php
-require_once '../app/core/Router.php';
+
+require_once __DIR__ . '/../app/core/Router.php';
 
 use App\Core\Router;
 
 $Router = new Router();
-
-// Register Routes
-
-
+$Router->add('GET', '/detail', 'hobbyinterest', 'index');
 $Router->run();
 ?>
