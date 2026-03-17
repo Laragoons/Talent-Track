@@ -1,5 +1,5 @@
 <?php
-$username = "Username";
+$username = "Soodiesaurus";
 
 $careers = [
     [
@@ -57,6 +57,7 @@ $careers = [
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #93A89A; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #7A8C80; }
+        .fill-active { fill: white !important; }
     </style>
 </head>
 <body class="bg-white text-gray-800 font-sans">
@@ -73,7 +74,7 @@ $careers = [
     <section class="max-w-7xl mx-auto px-8 py-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <h1 class="text-5xl font-extrabold text-black">Hello, <?php echo htmlspecialchars($username); ?>!</h1>
         <p class="text-lg font-semibold text-black leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean viverra, arcu ut tempor condimentum, turpis nisi rutrum felis, et luctus erat ligula mattis elit. Ut.
+           "Temukan jalur karier yang paling sesuai dengan kepribadian dan keahlianmu. Mari mulai melangkah menuju masa depan yang cerah dengan mengeksplorasi berbagai pilihan profesi yang ada di bawah ini."
         </p>
     </section>
 
@@ -109,7 +110,7 @@ $careers = [
 
         <div class="space-y-8">
             <?php foreach($careers as $career): ?>
-            <div class="flex flex-col md:flex-row bg-sage rounded-2xl overflow-hidden shadow-xl h-auto md:h-72">
+            <div class="flex flex-col md:flex-row bg-sage rounded-2xl overflow-hidden shadow-xl h-auto md:h-72 transition-transform duration-300 hover:scale-[1.01]">
                 <div class="md:w-5/12">
                     <img src="<?php echo $career['image']; ?>" alt="<?php echo $career['title']; ?>" class="w-full h-full object-cover">
                 </div>
@@ -118,8 +119,16 @@ $careers = [
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="text-3xl font-extrabold text-black tracking-tight"><?php echo $career['title']; ?></h3>
                         <div class="flex space-x-4 text-2xl text-black">
-                            <button class="hover:text-red-500 transition"><i class="fa-regular fa-heart"></i></button>
-                            <button class="hover:text-yellow-500 transition"><i class="fa-regular fa-bookmark"></i></button>
+                            <button class="btn-interact transition-transform hover:scale-110 active:scale-95">
+                                <svg class="w-7 h-7 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                </svg>
+                            </button>
+                            <button class="btn-interact transition-transform hover:scale-110 active:scale-95">
+                                <svg class="w-7 h-7 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                     
@@ -156,6 +165,16 @@ $careers = [
             <a href="#" class="text-red-500 bg-white p-1 rounded-md hover:scale-110 transition"><i class="fa-solid fa-envelope text-lg"></i></a>
         </div>
     </footer>
+
+    <script>
+        // Script untuk menangani efek klik (toggle fill putih)
+        document.querySelectorAll('.btn-interact').forEach(button => {
+            button.addEventListener('click', function() {
+                const svg = this.querySelector('svg');
+                svg.classList.toggle('fill-active');
+            });
+        });
+    </script>
 
 </body>
 </html>
