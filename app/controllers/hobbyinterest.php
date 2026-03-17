@@ -4,14 +4,14 @@ namespace App\Controllers;
 class hobbyinterest
 {
 
-    public function index()
+    public function home()
     {
-        require_once '../app/views/hobby/detail.php';
+        require_once '../app/views/hobby/index.php';
     }
 
-    public function create()
+    public function detail()
     {
-        require_once '../app/views/students/create.php';
+        require_once '../app/views/hobby/index.php/detail.php';
     }
 
     public function show(string $id)
