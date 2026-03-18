@@ -11,7 +11,7 @@ class hobbyinterest
 
     public function detail()
     {
-        require_once '../app/views/hobby/index.php/detail.php';
+        require_once '../app/views/hobby/detail.php';
     }
 
     public function show(string $id)
