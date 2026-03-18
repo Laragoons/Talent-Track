@@ -71,7 +71,7 @@
                 <div class="flex flex-col">
                     <h3 class="text-2xl font-bold text-center mb-4">Programer</h3>
                     <div class="relative group rounded-3xl overflow-hidden aspect-square border-4 border-[#789685]">
-                        <img src="/assets/Image/Progamer.png" alt="Programer" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                        <img src="/assets/Image/Programmer.png" alt="Programer" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
                         <div class="absolute bottom-4 right-4">
                             <button class="bg-[#789685] text-white text-xs font-bold px-4 py-2 rounded-lg shadow-lg">More Details</button>
                         </div>
@@ -100,7 +100,7 @@
     </main>
 
     <footer class="bg-[#789685] py-12 text-center text-white">
-        <h2 class="text-4xl font-bold text-black mb-8 tracking-widest uppercase">Logo</h2>
+        <h2 class="flex flex-wrap justify-center mb-8"><img src="/assets/Image/Logo.png" alt="Logo"></h2>
         <div class="flex flex-wrap justify-center gap-6 mb-8 font-semibold">
             <a href="#" class="hover:underline">About Us</a>
             <a href="#" class="hover:underline">Services</a>

@@ -13,6 +13,10 @@ class hobbyinterest
     {
         require_once '../app/views/hobby/detail.php';
     }
+    public function profile()
+    {
+        require_once '../app/views/hobby/Profile.php';
+    }
 
     public function show(string $id)
     {

@@ -5,22 +5,22 @@ $careers = [
     [
         "title" => "Chef",
         "description" => "A chef is a professional cook who works in a restaurant or kitchen. They prepare and cook many kinds of food. A chef plans menus and chooses fresh ingredients. They make sure the food tastes delicious and looks attractive. Chefs need creativity and good cooking skills. They also work with other kitchen staff to serve food quickly.",
-        "image" => "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "image" => "assets/Image/Chef.png",
     ],
     [
         "title" => "Animator",
         "description" => "An animator is a person who creates moving images and animations. They design characters and scenes for cartoons, movies, or games. Animators use computers and special software to make pictures move. They need creativity and drawing skills. Animators also work with a team to complete animation projects. Their work makes stories more interesting and entertaining.",
-        "image" => "https://images.unsplash.com/photo-1551269901-5c5e14c25df7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "image" => "assets/Image/Animator.png",
     ],
     [
         "title" => "Architect",
         "description" => "An architect is a professional who designs buildings and other structures. They create plans and drawings for houses, offices, and public buildings. Architects think about safety, function, and beauty in their designs. They often use computers and design software to make building plans. Architects also work with engineers and builders during construction.",
-        "image" => "https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "image" => "assets/Image/Architect.png",
     ],
     [
         "title" => "Programmer",
         "description" => "A programmer writes code to create software programs. They turn the program designs created by software developers and engineers into instructions that a computer can follow. Programmers must understand various coding languages like Python, Java, or C++. They also test their code to find and fix errors, ensuring the software runs smoothly and meets user needs.",
-        "image" => "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "image" => "assets/Image/Programmer2.png",
     ]
 ];
 ?>
@@ -64,10 +64,10 @@ $careers = [
 
     <nav class="bg-sage text-white px-8 py-3 flex justify-between items-center">
         <div class="text-xl font-bold tracking-wider">Logo</div>
-        <div class="flex items-center space-x-4">
-            <a href="#" class="bg-white text-sage px-4 py-1 rounded-full text-sm font-semibold hover:bg-gray-100 transition">Sign In</a>
-            <a href="#" class="bg-white text-sage px-4 py-1 rounded-full text-sm font-semibold hover:bg-gray-100 transition">Sign Up</a>
-            <img src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile" class="w-8 h-8 rounded-full border-2 border-white">
+        <div class="flex items-center space-x-3">
+            <a href="#" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">Sign In</a>
+            <a href="#" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">Sign Up</a>
+            <img src="https://ui-avatars.com/api/?name=US&background=3d2f2f&color=fff" alt="User Profile" class="w-9 h-9 rounded-full">
         </div>
     </nav>
 
@@ -86,11 +86,11 @@ $careers = [
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
 
-            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Interest 1" class="w-64 h-64 object-cover rounded-xl shadow-lg opacity-80 transform scale-90 transition duration-300">
+            <img src="assets/Image/designing.png" alt="Designing" class="w-64 h-64 object-cover rounded-xl shadow-lg opacity-80 transform scale-90 transition duration-300">
             
-            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Interest 2" class="w-80 h-80 object-cover rounded-xl shadow-2xl transform scale-105 z-10 border-4 border-transparent">
+            <img src="assets/Image/Programmer.png" alt="Programmer" class="w-80 h-80 object-cover rounded-xl shadow-2xl transform scale-105 z-10">
             
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Interest 3" class="w-64 h-64 object-cover rounded-xl shadow-lg opacity-80 transform scale-90 transition duration-300">
+            <img src="assets/Image/Chef2.png" alt="Chef" class="w-64 h-64 object-cover rounded-xl shadow-lg opacity-80 transform scale-90 transition duration-300">
 
             <button class="text-black text-3xl hover:text-white transition absolute right-0 z-10">
                 <i class="fa-solid fa-chevron-right"></i>
@@ -149,7 +149,6 @@ $careers = [
 
     <footer class="bg-sage pt-12 pb-6 px-8 text-center text-white flex flex-col items-center">
         <div class="text-4xl font-bold mb-6 text-black tracking-wider">Logo</div>
-        
         <div class="flex flex-wrap justify-center gap-6 text-sm font-semibold text-white mb-8">
             <a href="#" class="hover:underline">About Us</a>
             <a href="#" class="hover:underline">Services</a>
@@ -157,9 +156,8 @@ $careers = [
             <a href="#" class="hover:underline">Contact Us</a>
             <a href="#" class="hover:underline">Terms Of Service</a>
         </div>
-        
         <div class="flex space-x-6 text-2xl">
-            <a href="#" class="text-pink-500 bg-transparent rounded-full hover:scale-110 transition"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="text-pink-500 hover:scale-110 transition"><i class="fa-brands fa-instagram"></i></a>
             <a href="#" class="text-black bg-white rounded-md p-1 hover:scale-110 transition"><i class="fa-brands fa-x-twitter text-lg"></i></a>
             <a href="#" class="text-blue-600 bg-white rounded-full hover:scale-110 transition"><i class="fa-brands fa-facebook"></i></a>
             <a href="#" class="text-red-500 bg-white p-1 rounded-md hover:scale-110 transition"><i class="fa-solid fa-envelope text-lg"></i></a>
@@ -167,7 +165,6 @@ $careers = [
     </footer>
 
     <script>
-        // Script untuk menangani efek klik (toggle fill putih)
         document.querySelectorAll('.btn-interact').forEach(button => {
             button.addEventListener('click', function() {
                 const svg = this.querySelector('svg');
