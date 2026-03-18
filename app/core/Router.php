@@ -45,7 +45,7 @@ class Router
     }
  
         http_response_code(response_code: 404);
-        require_once '../app/views/hobby/index.php';
+        echo '404 Not Found';
  
     }
  
