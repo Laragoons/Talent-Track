@@ -3,263 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'sage': '#7d9a8a',
-                        'sage-dark': '#6b8778',
-                        'sage-light': '#a8bfb3',
-                        'sage-bg': '#e8f0ec',
-                        'header-bg': '#2c2c2c',
-                    }
-                }
-            }
-        }
-    </script>
+    <title>Career Detail - Chef</title>
+    <script src="https://cdn.tailwindcss.com"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-white font-sans text-gray-800">
 
-        <!-- NAVBAR -->
-        <nav class="bg-[#2c2c2c] text-white px-5 py-3 flex items-center justify-between">
-            <span class="font-bold text-base tracking-wide">Logo</span>
-            <button class="text-white">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-                    <path d="M4 4l7.07 17 2.51-7.39L21 11.07z"/>
-                </svg>
-            </button>
-        </nav>
-
-        <!-- HERO CARD -->
-        <div class="bg-[#e8f0ec] px-4 pt-4 pb-6">
-            <div class="bg-[#7d9a8a] rounded-lg overflow-hidden flex flex-col sm:flex-row">
-                <div class="flex-shrink-0">
-                    <img src="<?= htmlspecialchars($image ?? '') ?>"
-                         alt="Chef"
-                         class="w-full sm:w-64 h-56 sm:h-full object-cover"
-                         onerror="this.style.display='none'">
-                </div>
-                <div class="flex-1 p-5 bg-[#7d9a8a] text-white relative">
-                    <div class="flex items-start justify-between">
-                        <h1 class="text-3xl font-bold text-white mb-3">
-                            <?= htmlspecialchars($title ?? 'Career Title') ?>
-                        </h1>
-                        <div class="flex gap-3 ml-4 mt-1">
-                            <!-- Heart -->
-                            <button id="btn-like" class="transition-transform hover:scale-110">
-                                <svg id="heart-icon" class="w-6 h-6" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </button>
-                            <!-- Bookmark -->
-                            <button id="btn-save" class="transition-transform hover:scale-110">
-                                <svg id="bookmark-icon" class="w-6 h-6" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <p class="text-white/90 text-sm leading-relaxed">
-                        <?= htmlspecialchars($description ?? '') ?>
-                    </p>
-                </div>
-            </div>
+    <nav class="bg-[#789685] p-4 flex justify-between items-center text-white">
+        <span class="font-bold text-xl uppercase tracking-widest"><img src="/assets/Image/Logo.png" alt="Logo"></span>
+        <div class="w-8 h-8 rounded-full bg-gray-300 overflow-hidden border border-white">
+            <img src="/assets/Image/Chef.png" alt="Profile" class="object-cover w-full h-full">
         </div>
+    </nav>
 
-        <!-- SKILLS & DUTIES -->
-        <div class="px-4 py-5 bg-white">
-            <div class="flex flex-col sm:flex-row gap-0 border border-gray-400">
-
-                <!-- Required Skills -->
-                <div class="sm:w-2/5 border-r border-gray-400">
-                    <div class="bg-[#e8f0ec] border-b border-gray-400 px-3 py-2">
-                        <h2 class="font-bold text-sm text-gray-800">Required Skills</h2>
-                    </div>
-                    <div class="p-3 bg-white">
-                        <ul class="space-y-1.5">
-                            <?php foreach (($skills ?? []) as $skill): ?>
-                            <li class="flex items-start gap-2 text-xs text-gray-700 leading-snug">
-                                <span class="mt-1 w-1.5 h-1.5 rounded-full bg-gray-600 flex-shrink-0"></span>
-                                <?= htmlspecialchars($skill) ?>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Duties & Responsibilities -->
-                <div class="flex-1">
-                    <div class="bg-[#7d9a8a] border-b border-gray-400 px-3 py-2">
-                        <h2 class="font-bold text-sm text-white text-center">Duties &amp; Responsibilities</h2>
-                    </div>
-                    <div class="p-3 bg-white">
-                        <ul class="space-y-2">
-                            <?php foreach (($duties ?? []) as $duty): ?>
-                            <li class="flex items-start gap-2 text-xs text-gray-700 leading-snug">
-                                <span class="mt-1 w-1.5 h-1.5 rounded-full bg-gray-600 flex-shrink-0"></span>
-                                <?= htmlspecialchars($duty) ?>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </div>
-
+    <main class="max-w-6xl mx-auto p-6 lg:p-12">
+        <section class="bg-[#789685]/30 rounded-3xl overflow-hidden flex flex-col md:flex-row mb-12 border border-[#789685]/50">
+            <div class="md:w-1/2">
+                <img src="/assets/Image/Chef.png" alt="Chef" class="w-full h-full object-cover">
             </div>
+            <div class="md:w-1/2 p-8 lg:p-12 relative">
+                <div class="flex justify-between items-start mb-4">
+                    <h1 class="text-4xl font-bold text-gray-800">Chef</h1>
+                    <div class="flex gap-4">
+                        <button class="text-2xl hover:text-red-500 transition">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        <button class="text-2xl hover:text-yellow-600 transition">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+                <p class="text-gray-700 leading-relaxed text-sm lg:text-base">
+                    "Seorang Chef adalah dirigen di balik simfoni dapur profesional yang memadukan keahlian teknis kuliner tingkat tinggi dengan visi artistik yang tak terbatas. Lebih dari sekadar mengolah bahan makanan, mereka mengemban tanggung jawab krusial dalam merancang konsep menu inovatif, mengkurasi bahan baku berkualitas terbaik, serta menjaga konsistensi rasa yang menjadi identitas sebuah restoran.
+
+                    <span>Dalam kesehariannya, seorang Chef harus mampu menyeimbangkan peran sebagai seorang kreator yang detail dalam estetika penyajian (plating), sekaligus sebagai pemimpin yang tangguh dalam mengelola manajemen staf, efisiensi operasional, dan standar sanitasi yang ketat. Bagi mereka, setiap piring yang disajikan bukan sekadar hidangan, melainkan sebuah dedikasi untuk menciptakan pengalaman sensorik yang berkesan bagi setiap tamu</span>."
+                </p>
+            </div>
+        </section>
+
+        <section class="grid md:grid-cols-2 gap-8 mb-16">
+            <div class="border-2 border-black rounded-2xl overflow-hidden shadow-[8px_8px_0px_0px_rgba(120,150,133,0.4)]">
+                <h2 class="bg-[#789685]/50 border-b-2 border-black p-4 text-2xl font-bold text-center">Required Skills</h2>
+                <ul class="p-6 space-y-3 list-disc list-inside font-medium text-gray-700 text-lg">
+                    <li>Basic cooking and food preparation</li>
+                    <li>Food hygiene and safety standards</li>
+                    <li>Time management & multitasking</li>
+                    <li>Creativity in menu development</li>
+                    <li>Strong teamwork and leadership</li>
+                </ul>
+            </div>
+
+            <div class="border-2 border-black rounded-2xl overflow-hidden shadow-[8px_8px_0px_0px_rgba(120,150,133,0.4)]">
+                <h2 class="bg-[#789685]/50 border-b-2 border-black p-4 text-2xl font-bold text-center">Duties & Responsibilities</h2>
+                <ul class="p-6 space-y-3 list-disc list-inside font-medium text-gray-700 text-lg">
+                    <li>Preparing ingredients & standardized recipes</li>
+                    <li>Ensuring food quality and presentation</li>
+                    <li>Maintaining kitchen cleanliness/sanitation</li>
+                    <li>Managing stock and kitchen equipment</li>
+                    <li>Coordinating with kitchen staff (Sous Chefs)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mb-20">
+            <h2 class="text-center text-4xl font-bold mb-10">Similar Career</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="flex flex-col">
+                    <h3 class="text-2xl font-bold text-center mb-4">Programer</h3>
+                    <div class="relative group rounded-3xl overflow-hidden aspect-square border-4 border-[#789685]">
+                        <img src="/assets/Image/Progamer.png" alt="Programer" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                        <div class="absolute bottom-4 right-4">
+                            <button class="bg-[#789685] text-white text-xs font-bold px-4 py-2 rounded-lg shadow-lg">More Details</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <h3 class="text-2xl font-bold text-center mb-4">Teacher</h3>
+                    <div class="relative group rounded-3xl overflow-hidden aspect-square border-4 border-[#789685]">
+                        <img src="/assets/Image/Teacher.png" alt="Teacher" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                        <div class="absolute bottom-4 right-4">
+                            <button class="bg-[#789685] text-white text-xs font-bold px-4 py-2 rounded-lg shadow-lg">More Details</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <h3 class="text-2xl font-bold text-center mb-4">Athlete</h3>
+                    <div class="relative group rounded-3xl overflow-hidden aspect-square border-4 border-[#789685]">
+                        <img src="/assets/Image/Athlete.png" alt="Athlete" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                        <div class="absolute bottom-4 right-4">
+                            <button class="bg-[#789685] text-white text-xs font-bold px-4 py-2 rounded-lg shadow-lg">More Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#789685] py-12 text-center text-white">
+        <h2 class="text-4xl font-bold text-black mb-8 tracking-widest uppercase">Logo</h2>
+        <div class="flex flex-wrap justify-center gap-6 mb-8 font-semibold">
+            <a href="#" class="hover:underline">About Us</a>
+            <a href="#" class="hover:underline">Services</a>
+            <a href="#" class="hover:underline">Community</a>
+            <a href="#" class="hover:underline">Contact Us</a>
+            <a href="#" class="hover:underline">Terms Of Service</a>
         </div>
-
-        <!-- SIMILAR CAREER -->
-        <div class="bg-white px-4 pb-6">
-            <h2 class="text-center text-2xl font-bold text-gray-900 mb-4">Similar Career</h2>
-            <div class="grid grid-cols-3 gap-3">
-                <?php foreach (($similar ?? []) as $career): ?>
-                <div class="career-card">
-                    <h3 class="font-bold text-lg text-gray-900 mb-2 text-left leading-tight">
-                        <?= htmlspecialchars($career['title'] ?? '') ?>
-                    </h3>
-                    <div class="border border-gray-300 rounded overflow-hidden">
-                        <div class="relative">
-                            <img src="<?= htmlspecialchars($career['image'] ?? '') ?>"
-                                 alt="<?= htmlspecialchars($career['title'] ?? '') ?>"
-                                 class="w-full h-36 object-cover"
-                                 onerror="this.style.display='none'">
-                            <div class="absolute bottom-0 left-0 right-0 bg-black/50 py-1.5 text-center">
-                                <button class="btn-details text-white text-xs font-medium hover:text-gray-200 transition-colors"
-                                        data-career="<?= htmlspecialchars($career['title'] ?? '') ?>"
-                                        data-desc="<?= htmlspecialchars($career['desc'] ?? '') ?>">
-                                    More Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php endforeach; ?>
-            </div>
+        <div class="flex justify-center gap-6 text-2xl">
+            <i class="fa-brands fa-instagram cursor-pointer hover:text-purple-300"></i>
+            <i class="fa-brands fa-x-twitter cursor-pointer hover:text-black"></i>
+            <i class="fa-brands fa-facebook cursor-pointer hover:text-blue-200"></i>
+            <i class="fa-regular fa-envelope cursor-pointer hover:text-red-200"></i>
         </div>
+    </footer>
 
-        <!-- FOOTER -->
-        <footer class="bg-[#7d9a8a] text-white">
-            <div class="py-6 px-4 text-center">
-                <div class="text-2xl font-bold text-gray-900 mb-4">Logo</div>
-                <nav class="flex flex-wrap justify-center gap-x-5 gap-y-1 mb-5">
-                    <?php foreach (($nav_links ?? []) as $link): ?>
-                    <a href="#" class="text-gray-800 hover:text-gray-900 text-xs transition-colors">
-                        <?= htmlspecialchars($link) ?>
-                    </a>
-                    <?php endforeach; ?>
-                </nav>
-                <div class="flex justify-center items-center gap-3">
-                    <!-- Instagram -->
-                    <a href="#" class="hover:opacity-80 transition-opacity">
-                        <div class="w-9 h-9 rounded-full overflow-hidden bg-white flex items-center justify-center">
-                            <svg class="w-6 h-6" viewBox="0 0 24 24">
-                                <defs>
-                                    <radialGradient id="ig1" cx="30%" cy="107%" r="150%">
-                                        <stop offset="0%" stop-color="#fdf497"/>
-                                        <stop offset="45%" stop-color="#fd5949"/>
-                                        <stop offset="60%" stop-color="#d6249f"/>
-                                        <stop offset="90%" stop-color="#285AEB"/>
-                                    </radialGradient>
-                                </defs>
-                                <rect width="24" height="24" rx="5" fill="url(#ig1)"/>
-                                <circle cx="12" cy="12" r="4" fill="none" stroke="white" stroke-width="1.8"/>
-                                <circle cx="17.5" cy="6.5" r="1.2" fill="white"/>
-                            </svg>
-                        </div>
-                    </a>
-                    <!-- X / Twitter -->
-                    <a href="#" class="hover:opacity-80 transition-opacity">
-                        <div class="w-9 h-9 rounded-full bg-black flex items-center justify-center">
-                            <svg class="w-5 h-5" fill="white" viewBox="0 0 24 24">
-                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                            </svg>
-                        </div>
-                    </a>
-                    <!-- Facebook -->
-                    <a href="#" class="hover:opacity-80 transition-opacity">
-                        <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center">
-                            <svg class="w-5 h-5" fill="white" viewBox="0 0 24 24">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </div>
-                    </a>
-                    <!-- Email -->
-                    <a href="#" class="hover:opacity-80 transition-opacity">
-                        <div class="w-9 h-9 rounded-full bg-yellow-400 flex items-center justify-center">
-                            <svg class="w-5 h-5" fill="white" viewBox="0 0 24 24">
-                                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                            </svg>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-
-    <!-- MODAL -->
-    <div id="modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
-        <div id="modal-box" class="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl">
-            <div class="flex justify-between items-center mb-3">
-                <h3 id="modal-title" class="font-bold text-xl text-gray-800"></h3>
-                <button id="modal-close" class="text-gray-400 hover:text-gray-700 text-xl leading-none">&times;</button>
-            </div>
-            <p id="modal-body" class="text-gray-600 text-sm leading-relaxed mb-5"></p>
-            <button id="modal-cta" class="w-full bg-[#7d9a8a] text-white py-2 rounded-lg text-sm font-semibold hover:bg-[#6b8778] transition-colors">
-                Explore Career
-            </button>
-        </div>
-    </div>
-
-    <script>
-        // Like button toggle
-        const btnLike = document.getElementById('btn-like');
-        const heartIcon = document.getElementById('heart-icon');
-        let liked = false;
-        btnLike?.addEventListener('click', () => {
-            liked = !liked;
-            heartIcon.setAttribute('fill', liked ? 'white' : 'none');
-        });
-
-        // Bookmark button toggle
-        const btnSave = document.getElementById('btn-save');
-        const bookmarkIcon = document.getElementById('bookmark-icon');
-        let saved = false;
-        btnSave?.addEventListener('click', () => {
-            saved = !saved;
-            bookmarkIcon.setAttribute('fill', saved ? 'white' : 'none');
-        });
-
-        // Modal
-        const modal = document.getElementById('modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBody = document.getElementById('modal-body');
-        const modalClose = document.getElementById('modal-close');
-
-        document.querySelectorAll('.btn-details').forEach(btn => {
-            btn.addEventListener('click', () => {
-                modalTitle.textContent = btn.dataset.career;
-                modalBody.textContent = btn.dataset.desc;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            });
-        });
-
-        modalClose?.addEventListener('click', () => {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        });
-
-        modal?.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        });
-    </script>
 </body>
 </html>
