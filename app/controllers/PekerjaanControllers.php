@@ -3,8 +3,7 @@ namespace App\Controllers;
 
 class PekerjaanControllers
 {
-
-    public function detail()
+    public function detail(string $id)
     {
         require_once '../app/views/Pekerjaan/detail.php';
     }
@@ -21,5 +20,4 @@ class PekerjaanControllers
     {
         require_once '../app/views/students/show.php';
     }
-
 }
