@@ -12,6 +12,6 @@ $Router->add('GET', '/Login', 'usersControllers', 'Login');
 $Router->add('GET', '/Register', 'usersControllers', 'Register');
 $Router->add('GET', '/ListPekerjaan', 'PekerjaanControllers', 'List');
 $Router->add('GET', '/', 'landingControllers', 'index');
-
+$Router->add('GET', '/Profile', 'usersControllers', 'Profile');
 $Router->run();
 ?>

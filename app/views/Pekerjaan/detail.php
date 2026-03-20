@@ -87,7 +87,6 @@ $career = $careers[$id];
 </head>
 <body class="bg-white font-sans text-gray-800">
 
-    <!-- Navbar -->
     <nav class="bg-sage text-white px-8 py-3 flex justify-between items-center">
         <div>
             <img src="/assets/Image/Logo.png" alt="Logo" class="h-8">
@@ -101,7 +100,6 @@ $career = $careers[$id];
 
     <main class="max-w-6xl mx-auto p-6 lg:p-12">
 
-        <!-- Hero Card -->
         <section class="bg-[#789685]/30 rounded-3xl overflow-hidden flex flex-col md:flex-row mb-12 border border-[#789685]/50">
             <div class="md:w-1/2">
                 <img src="<?php echo htmlspecialchars($career['image']); ?>" alt="<?php echo htmlspecialchars($career['title']); ?>" class="w-full h-full object-cover">
@@ -124,7 +122,6 @@ $career = $careers[$id];
             </div>
         </section>
 
-        <!-- Skills & Duties -->
         <section class="grid md:grid-cols-2 gap-8 mb-16">
             <div class="border-2 border-black rounded-2xl overflow-hidden shadow-[8px_8px_0px_0px_rgba(120,150,133,0.4)]">
                 <h2 class="bg-[#789685]/50 border-b-2 border-black p-4 text-2xl font-bold text-center">Required Skills</h2>
@@ -145,7 +142,6 @@ $career = $careers[$id];
             </div>
         </section>
 
-        <!-- Similar Careers -->
         <section class="mb-20">
             <h2 class="text-center text-4xl font-bold mb-10">Similar Career</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -166,7 +162,6 @@ $career = $careers[$id];
 
     </main>
 
-    <!-- Footer -->
     <footer class="bg-sage pt-12 pb-6 px-8 text-center text-white flex flex-col items-center">
         <div class="mb-6">
             <img src="/assets/Image/Logo.png" alt="Logo" class="h-10 mx-auto">

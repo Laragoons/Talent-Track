@@ -1,7 +1,6 @@
 <?php
 $username = "Soodiesaurus";
 
-// TODO: Replace with DB query later
 $careers = [
     1 => [
         "title" => "Chef",
@@ -67,19 +66,19 @@ $careers = [
 </head>
 <body class="bg-white text-gray-800 font-sans">
 
-    <!-- Navbar -->
     <nav class="bg-sage text-white px-8 py-3 flex justify-between items-center">
         <div>
             <img src="assets/Image/Logo.png" alt="Logo" class="h-8">
         </div>
         <div class="flex items-center space-x-3">
-            <a href="#" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">Sign In</a>
-            <a href="#" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">Sign Up</a>
-            <img src="https://ui-avatars.com/api/?name=US&background=3d2f2f&color=fff" alt="User Profile" class="w-9 h-9 rounded-full">
+            <a href="/Login" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">Sign In</a>
+            <a href="/Register" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">Sign Up</a>
+            <a href="/Profile">
+                <img src="assets/Image/userimg.png" alt="User Profile" class="w-9 h-9 rounded-full">
+            </a>
         </div>
     </nav>
 
-    <!-- Hero -->
     <section class="max-w-7xl mx-auto px-8 py-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <h1 class="text-5xl font-extrabold text-black">Hello, <?php echo htmlspecialchars($username); ?>!</h1>
         <p class="text-lg font-semibold text-black leading-relaxed">
@@ -87,7 +86,6 @@ $careers = [
         </p>
     </section>
 
-    <!-- Interest Carousel -->
     <section class="bg-sage py-12 px-8">
         <h2 class="text-center text-4xl font-bold text-white mb-10">These are your interest</h2>
 
@@ -108,11 +106,9 @@ $careers = [
             </button>
         </div>
 
-        <!-- Dots — built dynamically by home.js -->
         <div id="carousel-dots" class="flex justify-center mt-8 space-x-3 items-center"></div>
     </section>
 
-    <!-- Career Cards -->
     <section class="max-w-5xl mx-auto px-8 py-16">
         <h2 class="text-center text-4xl font-bold text-black mb-12">Career That Suits Your Interest</h2>
 
@@ -152,7 +148,6 @@ $careers = [
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-sage pt-12 pb-6 px-8 text-center text-white flex flex-col items-center">
         <div class="mb-6">
             <img src="assets/Image/Logo.png" alt="Logo" class="h-10 mx-auto">
@@ -188,10 +183,7 @@ $careers = [
         });
     </script>
 
-    <!-- home.php is at: app/views/users/home.php -->
-    <!-- home.js  is at: public/assets/js/home.js  -->
-    <!-- Going up 3 levels: users -> views -> app -> root, then into public/assets/js -->
- <script src="/js/home.js"></script>
+    <script src="/js/home.js"></script>
 
 </body>
 </html>
