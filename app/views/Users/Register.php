@@ -84,7 +84,7 @@
                     </div>
                 </div>
 
-                <a href="/" class="w-full bg-white text-gray-800 font-bold py-3 rounded-full shadow hover:shadow-md hover:bg-gray-50 transition mb-6 block text-center">
+                <a href="/Login" class="w-full bg-white text-gray-800 font-bold py-3 rounded-full shadow hover:shadow-md hover:bg-gray-50 transition mb-6 block text-center">
                     Daftar
                 </a>
 

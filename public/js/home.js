@@ -1,4 +1,4 @@
-const interests = [
+const defaultInterests = [
     { label: "Designing",    src: "assets/Image/designing.png" },
     { label: "Programming",  src: "assets/Image/Programmer.png" },
     { label: "Cooking",      src: "assets/Image/Chef2.png" },
@@ -7,10 +7,13 @@ const interests = [
     { label: "Coding",       src: "assets/Image/coding.png" },
 ];
 
+const saved = localStorage.getItem('userInterests');
+const interests = saved ? JSON.parse(saved) : defaultInterests;
+
 let current = 1;
 let isAnimating = false;
-const total = interests.length; // 6
-const totalDots = 4; // total - 3 + 1
+const total = interests.length;
+const totalDots = Math.max(1, total - 3 + 1);
 
 const leftImg   = document.getElementById('carousel-left');
 const centerImg = document.getElementById('carousel-center');
@@ -19,21 +22,19 @@ const dotsWrap  = document.getElementById('carousel-dots');
 const btnLeft   = document.getElementById('carousel-btn-left');
 const btnRight  = document.getElementById('carousel-btn-right');
 
-// Build 4 dots
 function buildDots() {
     dotsWrap.innerHTML = '';
     for (let i = 0; i < totalDots; i++) {
         const dot = document.createElement('span');
-        dot.style.display       = 'inline-block';
-        dot.style.height        = '12px';
-        dot.style.borderRadius  = '9999px';
-        dot.style.cursor        = 'pointer';
-        dot.style.transition    = 'all 0.4s ease';
+        dot.style.display      = 'inline-block';
+        dot.style.height       = '12px';
+        dot.style.borderRadius = '9999px';
+        dot.style.cursor       = 'pointer';
+        dot.style.transition   = 'all 0.4s ease';
         dotsWrap.appendChild(dot);
     }
 }
 
-// Active dot = current - 1 (so current=1→dot0, current=2→dot1, current=3→dot2, current=4→dot3)
 function updateDots() {
     const activeDot = current - 1;
     dotsWrap.querySelectorAll('span').forEach((dot, i) => {
@@ -97,7 +98,6 @@ function goTo(newIndex, direction) {
     }, 410);
 }
 
-// current stays between 1 and 4 only — maps perfectly to dots 0-3
 btnLeft.addEventListener('click', () => {
     goTo(current - 1 < 1 ? totalDots : current - 1, 'left');
 });
@@ -105,7 +105,6 @@ btnRight.addEventListener('click', () => {
     goTo(current + 1 > totalDots ? 1 : current + 1, 'right');
 });
 
-// Init
 buildDots();
 renderImages();
 updateDots();

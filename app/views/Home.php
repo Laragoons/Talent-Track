@@ -13,9 +13,9 @@ $careers = [
         "image" => "assets/Image/Animator.png",
     ],
     3 => [
-        "title" => "Architect",
-        "description" => "An architect is a professional who designs buildings and other structures. They create plans and drawings for houses, offices, and public buildings. Architects think about safety, function, and beauty in their designs. They often use computers and design software to make building plans. Architects also work with engineers and builders during construction.",
-        "image" => "assets/Image/Architect.png",
+        "title" => "Athlete",
+        "description" => "An athlete competes in sports at a professional or amateur level, dedicating themselves to physical training, discipline, and continuous improvement. They represent their team or country and inspire others through their performance and dedication.",
+        "image" => "assets/Image/Athlete.png",
     ],
     4 => [
         "title" => "Programmer",
@@ -57,7 +57,7 @@ $careers = [
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #93A89A; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #7A8C80; }
-        .fill-active { fill: white !important; }
+        .fill-active { fill: currentColor !important; }
 
         #carousel-left, #carousel-center, #carousel-right {
             will-change: opacity, transform;
@@ -96,9 +96,9 @@ $careers = [
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
 
-            <img id="carousel-left"   src="" alt="" class="w-64 h-64 object-cover rounded-xl shadow-lg transform scale-90 flex-shrink-0">
-            <img id="carousel-center" src="" alt="" class="w-80 h-80 object-cover rounded-xl shadow-2xl transform scale-105 z-10 flex-shrink-0">
-            <img id="carousel-right"  src="" alt="" class="w-64 h-64 object-cover rounded-xl shadow-lg transform scale-90 flex-shrink-0">
+            <img id="carousel-left"   src="" alt="" class="w-64 h-64 object-cover rounded-xl transform scale-90 flex-shrink-0">
+            <img id="carousel-center" src="" alt="" class="w-80 h-80 object-cover rounded-xl transform scale-105 z-10 flex-shrink-0">
+            <img id="carousel-right"  src="" alt="" class="w-64 h-64 object-cover rounded-xl transform scale-90 flex-shrink-0">
 
             <button id="carousel-btn-right"
                 class="text-black text-3xl hover:text-white transition absolute right-0 z-10 select-none">
@@ -122,13 +122,13 @@ $careers = [
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="text-3xl font-extrabold text-black tracking-tight"><?php echo $career['title']; ?></h3>
                         <div class="flex space-x-4 text-2xl text-black">
-                            <button class="btn-interact transition-transform hover:scale-110 active:scale-95">
-                                <svg class="w-7 h-7 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2">
+                            <button class="btn-interact transition-transform hover:scale-110 active:scale-95 hover:text-red-500">
+                                <svg class="w-7 h-7 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                                 </svg>
                             </button>
-                            <button class="btn-interact transition-transform hover:scale-110 active:scale-95">
-                                <svg class="w-7 h-7 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2">
+                            <button class="btn-interact transition-transform hover:scale-110 active:scale-95 hover:text-yellow-600">
+                                <svg class="w-7 h-7 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
                                 </svg>
                             </button>
@@ -147,6 +147,10 @@ $careers = [
             <?php endforeach; ?>
         </div>
     </section>
+
+    <div class="text-center py-6">
+        <a href="/ListPekerjaan" class="text-black font-bold text-lg hover:text-red-500 transition">See more</a>
+    </div>
 
     <footer class="bg-sage pt-12 pb-6 px-8 text-center text-white flex flex-col items-center">
         <div class="mb-6">

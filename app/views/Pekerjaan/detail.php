@@ -17,13 +17,14 @@ $careers = [
         "similar"     => [1, 3, 4],
     ],
     3 => [
-        "title"       => "Animator",
-        "image"       => "/assets/Image/Animator.png",
-        "description" => "An animator creates moving images and animations for cartoons, movies, or games. They use computers and special software to bring characters and scenes to life. Animators need creativity, drawing skills, and the ability to work with a team to complete animation projects.",
-        "skills"      => ["Drawing and illustration", "Proficiency in animation software", "Understanding of motion and timing", "Creativity and storytelling", "Attention to detail"],
-        "duties"      => ["Creating storyboards and animatics", "Designing characters and environments", "Animating scenes using software", "Collaborating with directors and writers", "Reviewing and refining animations"],
+        "title"       => "Athlete",
+        "image"       => "/assets/Image/Athlete.png",
+        "description" => "An athlete competes in sports at a professional or amateur level, dedicating themselves to physical training, discipline, and continuous improvement. They represent their team or country and inspire others through their performance and dedication.",
+        "skills"      => ["Physical fitness and endurance", "Sport-specific technical skills", "Mental resilience and focus", "Teamwork and sportsmanship", "Discipline and time management"],
+        "duties"      => ["Training and conditioning regularly", "Competing in events and tournaments", "Following team strategies and game plans", "Maintaining physical and mental health", "Engaging with fans and the community"],
         "similar"     => [1, 2, 4],
     ],
+    
     4 => [
         "title"       => "Architect",
         "image"       => "/assets/Image/Architect.png",
@@ -108,11 +109,15 @@ $career = $careers[$id];
                 <div class="flex justify-between items-start mb-4">
                     <h1 class="text-4xl font-bold text-gray-800"><?php echo htmlspecialchars($career['title']); ?></h1>
                     <div class="flex gap-4">
-                        <button class="text-2xl hover:text-red-500 transition">
-                            <i class="fa-regular fa-heart"></i>
+                        <button class="btn-interact transition-transform hover:scale-110 active:scale-95 hover:text-red-500">
+                            <svg class="w-7 h-7 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
                         </button>
-                        <button class="text-2xl hover:text-yellow-600 transition">
-                            <i class="fa-regular fa-bookmark"></i>
+                        <button class="btn-interact transition-transform hover:scale-110 active:scale-95 hover:text-yellow-600">
+                            <svg class="w-7 h-7 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -189,5 +194,15 @@ $career = $careers[$id];
         </div>
     </footer>
 
+    <script>
+        document.querySelectorAll('.btn-interact').forEach(button => {
+            button.addEventListener('click', function() {
+                this.querySelector('svg').classList.toggle('fill-active');
+            });
+        });
+    </script>
+    <style>
+        .fill-active { fill: currentColor !important; }
+    </style>
 </body>
 </html>

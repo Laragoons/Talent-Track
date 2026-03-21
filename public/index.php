@@ -11,7 +11,8 @@ $Router->add('GET', '/saved', 'PekerjaanControllers', 'Save');
 $Router->add('GET', '/Login', 'usersControllers', 'Login');
 $Router->add('GET', '/Register', 'usersControllers', 'Register');
 $Router->add('GET', '/ListPekerjaan', 'PekerjaanControllers', 'List');
-$Router->add('GET', '/', 'landingControllers', 'index');
+$Router->add('GET', '/', 'usersControllers', 'Register');
 $Router->add('GET', '/Profile', 'usersControllers', 'Profile');
+$Router->add('GET', '/Home', 'landingControllers', 'index');
 $Router->run();
 ?>

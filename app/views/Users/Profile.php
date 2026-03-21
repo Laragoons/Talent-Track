@@ -29,7 +29,7 @@
 
     <nav class="bg-sage text-white px-6 py-3 flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <a href="/">
+            <a href="/Home">
                 <img src="/assets/Image/backarrow.png" alt="Back" class="h-7">
             </a>
             <span class="text-xl font-bold">Profile</span>
@@ -74,43 +74,17 @@
         <div class="flex-1 p-8 overflow-y-auto relative flex flex-col items-center">
 
             <div class="flex justify-end w-full mb-4">
-                <button class="hover:scale-110 transition">
+                <button id="edit-btn" class="hover:scale-110 transition">
                     <img src="/assets/Image/editing.png" alt="Edit" class="w-8 h-8">
                 </button>
             </div>
 
-            <div class="grid grid-cols-2 gap-6 w-full max-w-2xl">
-
-                <div class="flex flex-col gap-3">
-                    <div class="w-full aspect-square rounded-2xl overflow-hidden">
-                        <img src="/assets/Image/drawing.png" alt="Drawing" class="w-full h-full object-cover">
-                    </div>
-                    <p class="text-2xl font-bold">Drawing</p>
-                </div>
-
-                <div class="flex flex-col gap-3">
-                    <div class="w-full aspect-square rounded-2xl overflow-hidden">
-                        <img src="/assets/Image/designing.png" alt="Designing" class="w-full h-full object-cover">
-                    </div>
-                    <p class="text-2xl font-bold">Designing</p>
-                </div>
-
-                <div class="flex flex-col gap-3">
-                    <div class="w-full aspect-square rounded-2xl overflow-hidden">
-                        <img src="/assets/Image/cooking.png" alt="Cooking" class="w-full h-full object-cover">
-                    </div>
-                    <p class="text-2xl font-bold">Cooking</p>
-                </div>
-
-                <div class="flex flex-col gap-3">
-                    <div class="w-full aspect-square rounded-2xl border-2 border-gray-200 shadow-md flex items-center justify-center cursor-pointer hover:bg-gray-50 transition">
-                        <img src="/assets/Image/plus.png" alt="Add" class="w-16 h-16">
-                    </div>
-                </div>
-
+            <div id="interest-grid" class="grid grid-cols-2 gap-6 w-full max-w-2xl">
             </div>
         </div>
     </div>
+
+    <script src="/js/profile.js"></script>
 
 </body>
 </html>
