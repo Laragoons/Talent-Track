@@ -93,9 +93,7 @@ $career = $careers[$id];
             <img src="/assets/Image/Logo.png" alt="Logo" class="h-8">
         </div>
         <div class="flex items-center space-x-3">
-            <a href="#" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">Sign In</a>
-            <a href="#" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">Sign Up</a>
-            <img src="https://ui-avatars.com/api/?name=US&background=3d2f2f&color=fff" alt="User Profile" class="w-9 h-9 rounded-full">
+            <img src="/assets/Image/userimg.png" alt="User Profile" class="w-9 h-9 rounded-full">
         </div>
     </nav>
 

@@ -38,7 +38,7 @@ function renderInterests() {
     const plusCard = document.createElement('div');
     plusCard.className = 'flex flex-col gap-3';
     plusCard.innerHTML = `
-        <a href="/MinatBakat">
+        <a href="/Interest">
             <div class="w-full aspect-square rounded-2xl border-2 border-gray-200 shadow-md flex items-center justify-center cursor-pointer hover:bg-gray-50 transition">
                 <img src="/assets/Image/plus.png" alt="Add" class="w-16 h-16">
             </div>

@@ -62,6 +62,20 @@ $careers = [
         #carousel-left, #carousel-center, #carousel-right {
             will-change: opacity, transform;
         }
+
+        /* Save toast */
+        #save-toast {
+            display: flex;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, 10px);
+        }
+        #save-toast.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, 0);
+        }
     </style>
 </head>
 <body class="bg-white text-gray-800 font-sans">
@@ -122,13 +136,19 @@ $careers = [
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="text-3xl font-extrabold text-black tracking-tight"><?php echo $career['title']; ?></h3>
                         <div class="flex space-x-4 text-2xl text-black">
-                            <button class="btn-interact transition-transform hover:scale-110 active:scale-95 hover:text-red-500">
+                            <!-- Like button -->
+                            <button class="btn-like transition-transform hover:scale-110 active:scale-95 hover:text-red-500">
                                 <svg class="w-7 h-7 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                                 </svg>
                             </button>
-                            <button class="btn-interact transition-transform hover:scale-110 active:scale-95 hover:text-yellow-600">
-                                <svg class="w-7 h-7 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+                            <!-- Save / Bookmark button -->
+                            <button
+                                class="btn-save transition-transform hover:scale-110 active:scale-95 hover:text-yellow-600"
+                                data-id="<?php echo $id; ?>"
+                                data-title="<?php echo htmlspecialchars($career['title']); ?>"
+                                aria-label="Save <?php echo htmlspecialchars($career['title']); ?>">
+                                <svg class="w-7 h-7 stroke-current fill-none bookmark-icon" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
                                 </svg>
                             </button>
@@ -179,12 +199,89 @@ $careers = [
         </div>
     </footer>
 
+    <!-- Save toast notification -->
+    <div id="save-toast" class="fixed bottom-6 left-1/2 z-50
+        bg-gray-900 text-white text-sm font-semibold px-5 py-3 rounded-xl shadow-2xl
+        items-center gap-3">
+        <svg class="w-5 h-5 text-yellow-400 fill-current flex-shrink-0" viewBox="0 0 24 24">
+            <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+        </svg>
+        <span id="save-toast-msg">Saved!</span>
+        <a href="/Saved" class="ml-2 underline text-sage-light hover:text-white transition">View Saved</a>
+    </div>
+
     <script>
-        document.querySelectorAll('.btn-interact').forEach(button => {
-            button.addEventListener('click', function() {
+        // ── Like buttons ────────────────────────────────────────────────────────
+        document.querySelectorAll('.btn-like').forEach(button => {
+            button.addEventListener('click', function () {
                 this.querySelector('svg').classList.toggle('fill-active');
             });
         });
+
+        // ── Save / Bookmark helpers ─────────────────────────────────────────────
+        function getSaved() {
+            try { return JSON.parse(localStorage.getItem('savedCareers') || '[]'); }
+            catch { return []; }
+        }
+        function setSaved(ids) {
+            localStorage.setItem('savedCareers', JSON.stringify(ids));
+        }
+
+        // ── Apply saved state on load ───────────────────────────────────────────
+        function syncBookmarkButtons() {
+            const saved = getSaved();
+            document.querySelectorAll('.btn-save').forEach(btn => {
+                const id = parseInt(btn.dataset.id);
+                const icon = btn.querySelector('.bookmark-icon');
+                if (saved.includes(id)) {
+                    icon.classList.add('fill-active');
+                    btn.classList.add('text-yellow-600');
+                } else {
+                    icon.classList.remove('fill-active');
+                    btn.classList.remove('text-yellow-600');
+                }
+            });
+        }
+
+        // ── Toast ───────────────────────────────────────────────────────────────
+        let toastTimer;
+        function showToast(msg) {
+            const toast = document.getElementById('save-toast');
+            document.getElementById('save-toast-msg').textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        // ── Save button click ───────────────────────────────────────────────────
+        document.querySelectorAll('.btn-save').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id    = parseInt(this.dataset.id);
+                const title = this.dataset.title;
+                let saved   = getSaved();
+                const icon  = this.querySelector('.bookmark-icon');
+
+                if (saved.includes(id)) {
+                    // Un-save
+                    saved = saved.filter(s => s !== id);
+                    setSaved(saved);
+                    icon.classList.remove('fill-active');
+                    this.classList.remove('text-yellow-600');
+                    showToast(`"${title}" removed from saved`);
+                } else {
+                    // Save
+                    saved.push(id);
+                    setSaved(saved);
+                    icon.classList.add('fill-active');
+                    this.classList.add('text-yellow-600');
+                    showToast(`"${title}" saved!`);
+                }
+            });
+        });
+
+        syncBookmarkButtons();
     </script>
 
     <script src="/js/home.js"></script>
