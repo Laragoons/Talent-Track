@@ -103,7 +103,7 @@
 
     </div>
 
-    <script src="/js/listpekerjaan.js"></script>
+    <script src="/js/ListJob.js"></script>
 
 </body>
 </html>
