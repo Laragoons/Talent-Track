@@ -97,10 +97,10 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+
     <main class="flex-1 w-full max-w-7xl mx-auto px-8 py-10">
 
-        <!-- Header Row -->
+
         <div class="flex justify-between items-center mb-2">
             <a href="/Home">
                 <img src="/assets/Image/backarrow.png" alt="Back" class="h-10 hover:opacity-70 transition">
@@ -117,16 +117,16 @@
                 <p id="career-count" class="text-sage-dark font-semibold mt-1 text-sm"></p>
             </div>
             <div id="delete-hint" class="hidden text-red-500 text-sm font-semibold animate-pulse">
-                Select careers to remove
+
             </div>
         </div>
 
-        <!-- Career Grid -->
+
         <div id="career-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Cards injected by JS -->
+
         </div>
 
-        <!-- Empty State -->
+
         <div id="empty-state" class="hidden empty-state flex flex-col items-center justify-center py-28 text-center">
             <div class="w-20 h-20 bg-sage/20 rounded-full flex items-center justify-center mb-5">
                 <svg class="w-10 h-10 text-sage" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -180,9 +180,7 @@
     </footer>
 
     <script>
-        // ─── Data ────────────────────────────────────────────────────────────────
-        // In production this would come from the backend / session.
-        // For now we seed from localStorage so the bookmark toggle on other pages works.
+
         const ALL_CAREERS = [
             { id: 1,  title: "Chef",              img: "/assets/Image/Chef.png" },
             { id: 2,  title: "Animator",          img: "/assets/Image/Animator.png" },
@@ -201,7 +199,7 @@
             { id: 15, title: "Streamer",          img: "/assets/Image/streamer1.png" },
         ];
 
-        // Load saved IDs from localStorage (set by bookmark buttons on other pages)
+
         function getSavedIds() {
             try {
                 return JSON.parse(localStorage.getItem('savedCareers') || '[]');
@@ -216,7 +214,6 @@
             setSavedIds([1, 2, 3, 4]);
         }
 
-        // ─── Render ──────────────────────────────────────────────────────────────
         let deleteMode = false;
 
         function render() {
@@ -282,7 +279,7 @@
             window.location.href = '/detail/' + id;
         }
 
-        // ─── Delete Mode ─────────────────────────────────────────────────────────
+
         function toggleDeleteMode() {
             deleteMode = !deleteMode;
             const grid    = document.getElementById('career-grid');
@@ -333,7 +330,6 @@
             render();
         }
 
-        // ─── Init ─────────────────────────────────────────────────────────────────
         render();
     </script>
 
