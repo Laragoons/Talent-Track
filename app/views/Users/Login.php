@@ -34,48 +34,67 @@
 
             <div class="w-full max-w-sm">
                 <h1 class="text-5xl font-bold text-gray-800 text-center mb-3">Welcome<br>back!</h1>
-                <p class="text-center text-gray-600 text-sm mb-8">Sign in to continue to Talent Track</p>
+                <p class="text-center text-gray-600 text-sm mb-6">Sign in to continue to Talent Track</p>
 
-                <div class="mb-5">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        class="w-full bg-white/70 border border-white rounded-lg px-4 py-3 text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-[#6B9080] transition"
-                    >
+                <?php if (!empty($_GET['error'])): ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded-lg mb-4 text-center">
+                    <?= htmlspecialchars($_GET['error']) ?>
                 </div>
+                <?php endif; ?>
 
-                <div class="mb-8">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
-                    <div class="relative">
+                <?php if (!empty($_GET['success'])): ?>
+                <div class="bg-green-100 border border-green-400 text-green-700 text-sm px-4 py-3 rounded-lg mb-4 text-center">
+                    <?= htmlspecialchars($_GET['success']) ?>
+                </div>
+                <?php endif; ?>
+
+                <form action="/Login" method="POST">
+
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
                         <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            class="w-full bg-white/70 border border-white rounded-lg px-4 py-3 pr-12 text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-[#6B9080] transition"
+                            type="email"
+                            name="email"
+                            value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
+                            required
+                            class="w-full bg-white/70 border border-white rounded-lg px-4 py-3 text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-[#6B9080] transition"
                         >
-                        <button type="button" onclick="togglePassword('password', 'eye1')" class="absolute right-3 top-1/2 -translate-y-1/2">
-                            <img id="eye1" src="/assets/Image/eye.png" alt="Toggle" class="w-5 h-5 opacity-60 hover:opacity-100 transition">
-                        </button>
                     </div>
-                </div>
 
-                <a href="/Interest" class="w-full bg-white text-gray-800 font-bold py-3 rounded-full shadow hover:shadow-md hover:bg-gray-50 transition mb-6 block text-center">
-                    Masuk
-                </a>
+                    <div class="mb-8">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                        <div class="relative">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                required
+                                class="w-full bg-white/70 border border-white rounded-lg px-4 py-3 pr-12 text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-[#6B9080] transition"
+                            >
+                            <button type="button" onclick="togglePassword('password', 'eye1')" class="absolute right-3 top-1/2 -translate-y-1/2">
+                                <img id="eye1" src="/assets/Image/eye.png" alt="Toggle" class="w-5 h-5 opacity-60 hover:opacity-100 transition">
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-white text-gray-800 font-bold py-3 rounded-full shadow hover:shadow-md hover:bg-gray-50 transition mb-6">
+                        Masuk
+                    </button>
+
+                </form>
 
                 <div class="flex justify-center gap-6 mb-6">
                     <a href="https://www.google.com" target="_blank" class="hover:scale-110 transition">
-                        <img src="/assets/Image/google.png" alt="Google" class="w-10 h-10">
+                        <img src="/assets/Image/Google.png" alt="Google" class="w-10 h-10">
                     </a>
                     <a href="https://www.facebook.com" target="_blank" class="hover:scale-110 transition">
-                        <img src="/assets/Image/facebook.png" alt="Facebook" class="w-10 h-10">
+                        <img src="/assets/Image/Facebook.png" alt="Facebook" class="w-10 h-10">
                     </a>
                     <a href="https://mail.google.com" target="_blank" class="hover:scale-110 transition">
-                        <img src="/assets/Image/gmail.png" alt="Gmail" class="w-10 h-10">
+                        <img src="/assets/Image/Gmail.png" alt="Gmail" class="w-10 h-10">
                     </a>
                     <a href="https://www.github.com" target="_blank" class="hover:scale-110 transition">
-                        <img src="/assets/Image/github.png" alt="GitHub" class="w-10 h-10">
+                        <img src="/assets/Image/Github.png" alt="GitHub" class="w-10 h-10">
                     </a>
                 </div>
 
