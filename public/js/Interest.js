@@ -4,21 +4,31 @@ function toggleInterest(card) {
 
 function proceed() {
     const selectedCards = document.querySelectorAll('.interest-card.selected');
-    if (selectedCards.length < 2) {
-        alert('Pick at least two interests!');
+
+    if (selectedCards.length === 0) {
+        alert('Pick at least one interest!');
         return;
     }
 
-    const selected = [];
+    const selectedNames = [];
     selectedCards.forEach(card => {
-        const img   = card.querySelector('img');
-        const label = card.querySelector('p');
-        selected.push({
-            label: label.textContent.trim(),
-            src:   img.getAttribute('src'),
-        });
+        selectedNames.push(card.dataset.name);
     });
 
-    localStorage.setItem('userInterests', JSON.stringify(selected));
-    window.location.href = '/Home';
+    fetch('/saveInterests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ interests: selectedNames })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = '/Home';
+        } else {
+            alert('Failed to save: ' + (data.message || 'Try again'));
+        }
+    })
+    .catch(() => {
+        alert('Something went wrong, try again.');
+    });
 }

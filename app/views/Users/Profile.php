@@ -1,3 +1,31 @@
+<?php
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /Login");
+    exit;
+}
+
+require_once '../app/config/connection.php';
+
+$user_id = $_SESSION['user_id'];
+
+$userQuery = mysqli_query($conn, "SELECT * FROM users WHERE id = $user_id");
+$user      = mysqli_fetch_assoc($userQuery);
+
+$savedQuery = mysqli_query($conn, "SELECT COUNT(*) as total FROM saved_careers WHERE user_id = $user_id");
+$savedRow   = mysqli_fetch_assoc($savedQuery);
+$savedCount = $savedRow['total'];
+
+$interestQuery = mysqli_query($conn, "
+    SELECT i.name 
+    FROM user_interests ui
+    JOIN interests i ON ui.interest_id = i.id
+    WHERE ui.user_id = $user_id
+");
+$userInterests = [];
+while ($row = mysqli_fetch_assoc($interestQuery)) {
+    $userInterests[] = $row['name'];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,42 +79,35 @@
 
     <div class="flex h-[calc(100vh-56px)]">
 
-        <!-- ── Left Sidebar ─────────────────────────────────────────────────── -->
         <div class="w-80 bg-[#CCE3DE] flex-shrink-0 p-6 overflow-y-auto flex flex-col gap-6">
 
-            <!-- Avatar + Name -->
             <div class="flex items-center gap-4">
                 <img src="/assets/Image/userimg.png" alt="Profile" class="w-16 h-16 rounded-full object-cover border-2 border-sage">
                 <div>
-                    <p class="font-bold text-lg leading-tight">Daniel Agus<br>Marsudi</p>
+                    <p class="font-bold text-lg leading-tight"><?php echo htmlspecialchars($user['name']); ?></p>
                 </div>
             </div>
 
-            <!-- Personal Info -->
             <div>
                 <p class="font-bold text-base mb-2">Personal Info</p>
-                <div class="flex items-center gap-2 text-sm text-gray-600">
+                <div class="flex items-center gap-2 text-sm text-gray-600 flex-wrap">
                     <img src="/assets/Image/tinymail.png" alt="Email" class="w-4 h-4">
                     <span>Email</span>
-                    <span class="font-medium text-gray-800">Soodiesaurus@gmail.com</span>
+                    <span class="font-medium text-gray-800 break-all"><?php echo htmlspecialchars($user['email']); ?></span>
                 </div>
             </div>
 
-            <!-- About Me -->
             <div>
                 <p class="font-bold text-base mb-2">About Me</p>
                 <p class="text-sm text-gray-700 leading-relaxed">
-                    Saya adalah pribadi yang kreatif dan senang mengeksplorasi berbagai hal baru. Menggambar menjadi cara saya mengekspresikan ide dan imajinasi, sementara baking dan cooking adalah hobi yang membuat saya merasa rileks dan bahagia. Saya menikmati proses belajar, mencoba resep baru, serta berbagi hasil karya dengan orang-orang terdekat. Bagi saya, setiap detail kecil itu penting, baik dalam sebuah gambar maupun dalam sebuah hidangan. Saya percaya bahwa kreativitas dan ketekunan adalah kunci untuk terus berkembang dan menjadi versi terbaik dari diri saya.
+                    Saya adalah pribadi yang kreatif dan senang mengeksplorasi berbagai hal baru. Menggambar menjadi cara saya mengekspresikan ide dan imajinasi, sementara baking dan cooking adalah hobi yang membuat saya merasa rileks dan bahagia.
                 </p>
             </div>
 
-            <!-- ── Saved Careers Link ──────────────────────────────────────── -->
             <div>
                 <p class="font-bold text-base mb-2">My Careers</p>
-                <a href="/Saved"
-                   class="saved-link flex items-center justify-between bg-white rounded-xl px-4 py-3 shadow-sm border border-sage/30 hover:border-sage hover:bg-sage/5">
+                <a href="/Saved" class="saved-link flex items-center justify-between bg-white rounded-xl px-4 py-3 shadow-sm border border-sage/30 hover:border-sage hover:bg-sage/5">
                     <div class="flex items-center gap-3">
-                        <!-- Bookmark icon -->
                         <div class="w-9 h-9 bg-sage/20 rounded-lg flex items-center justify-center flex-shrink-0">
                             <svg class="w-5 h-5 text-sage-dark fill-current" viewBox="0 0 24 24">
                                 <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
@@ -94,10 +115,9 @@
                         </div>
                         <div>
                             <p class="font-bold text-sm text-gray-800">Saved Careers</p>
-                            <p id="saved-count-label" class="text-xs text-gray-500 mt-0.5">0 careers saved</p>
+                            <p class="text-xs text-gray-500 mt-0.5"><?php echo $savedCount; ?> career<?php echo $savedCount !== 1 ? 's' : ''; ?> saved</p>
                         </div>
                     </div>
-                    <!-- Arrow -->
                     <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
                     </svg>
@@ -106,7 +126,6 @@
 
         </div>
 
-        <!-- ── Right Panel ──────────────────────────────────────────────────── -->
         <div class="flex-1 p-8 overflow-y-auto relative flex flex-col items-center">
 
             <div class="flex justify-end w-full mb-4">
@@ -121,17 +140,8 @@
     </div>
 
     <script>
-        // Show live count of saved careers from localStorage
-        function updateSavedCount() {
-            try {
-                const saved = JSON.parse(localStorage.getItem('savedCareers') || '[]');
-                const label = document.getElementById('saved-count-label');
-                label.textContent = saved.length + ' career' + (saved.length !== 1 ? 's' : '') + ' saved';
-            } catch { /* ignore */ }
-        }
-        updateSavedCount();
+        const interestsFromDB = <?php echo json_encode($userInterests); ?>;
     </script>
-
     <script src="/js/profile.js"></script>
 
 </body>

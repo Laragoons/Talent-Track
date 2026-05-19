@@ -1,36 +1,40 @@
-const defaultInterests = [
-    { label: "Drawing",   src: "/assets/Image/drawing.png" },
-    { label: "Designing", src: "/assets/Image/designing.png" },
-    { label: "Cooking",   src: "/assets/Image/cooking.png" },
-];
-
-function getInterests() {
-    const saved = localStorage.getItem('userInterests');
-    return saved ? JSON.parse(saved) : defaultInterests;
-}
-
-function saveInterests(interests) {
-    localStorage.setItem('userInterests', JSON.stringify(interests));
-}
+const interestImageMap = {
+    "Animating":       "/assets/Image/animating0.png",
+    "Coding":          "/assets/Image/coding0.png",
+    "Business":        "/assets/Image/business0.png",
+    "Designing":       "/assets/Image/designing0.png",
+    "Writing":         "/assets/Image/writing0.png",
+    "Law":             "/assets/Image/law0.png",
+    "Cooking":         "/assets/Image/cooking0.png",
+    "Photography":     "/assets/Image/photography0.png",
+    "Health & Safety": "/assets/Image/health&safety0.png",
+    "Sports":          "/assets/Image/sports0.png",
+    "Music":           "/assets/Image/music0.png",
+    "Teaching":        "/assets/Image/teaching0.png",
+    "Acting":          "/assets/Image/acting0.png",
+    "Journalism":      "/assets/Image/journalism0.png",
+    "Streaming":       "/assets/Image/streaming0.png",
+};
 
 let editMode = false;
+let interests = (typeof interestsFromDB !== 'undefined') ? [...interestsFromDB] : [];
 
 function renderInterests() {
-    const interests = getInterests();
     const grid = document.getElementById('interest-grid');
     grid.innerHTML = '';
 
-    interests.forEach((interest, index) => {
+    interests.forEach((name, index) => {
+        const src = interestImageMap[name] || '/assets/Image/coding0.png';
         const card = document.createElement('div');
         card.className = 'flex flex-col gap-3 relative';
         card.innerHTML = `
             <div class="w-full aspect-square rounded-2xl overflow-hidden relative">
-                <img src="${interest.src}" alt="${interest.label}" class="w-full h-full object-cover">
-                <button class="cross-btn absolute top-2 right-2 hidden" onclick="deleteInterest(${index})">
-                    <img src="/assets/Image/cross.png" alt="Remove" class="w-6 h-6">
+                <img src="${src}" alt="${name}" class="w-full h-full object-cover">
+                <button class="cross-btn absolute top-2 right-2 w-8 h-8 flex items-center justify-center ${editMode ? '' : 'hidden'}" onclick="deleteInterest(${index})">
+                    <img src="/assets/Image/cross.png" alt="Remove" class="w-8 h-8">
                 </button>
             </div>
-            <p class="text-2xl font-bold">${interest.label}</p>
+            <p class="text-2xl font-bold">${name}</p>
         `;
         grid.appendChild(card);
     });
@@ -45,37 +49,33 @@ function renderInterests() {
         </a>
     `;
     grid.appendChild(plusCard);
-
-    if (editMode) showCrosses();
 }
 
 function toggleEditMode() {
     editMode = !editMode;
-    if (editMode) {
-        showCrosses();
-    } else {
-        hideCrosses();
-    }
-}
-
-function showCrosses() {
-    document.querySelectorAll('.cross-btn').forEach(btn => {
-        btn.classList.remove('hidden');
-    });
-}
-
-function hideCrosses() {
-    document.querySelectorAll('.cross-btn').forEach(btn => {
-        btn.classList.add('hidden');
-    });
+    renderInterests();
 }
 
 function deleteInterest(index) {
-    const interests = getInterests();
-    interests.splice(index, 1);
-    saveInterests(interests);
-    renderInterests();
-    if (editMode) showCrosses();
+    const name = interests[index];
+
+    fetch('/deleteInterest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            interests.splice(index, 1);
+            renderInterests();
+        } else {
+            alert('Failed to remove interest.');
+        }
+    })
+    .catch(() => {
+        alert('Something went wrong.');
+    });
 }
 
 document.getElementById('edit-btn').addEventListener('click', toggleEditMode);

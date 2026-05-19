@@ -1,19 +1,31 @@
-const defaultInterests = [
-    { label: "Designing",    src: "assets/Image/designing.png" },
-    { label: "Programming",  src: "assets/Image/Programmer.png" },
-    { label: "Cooking",      src: "assets/Image/Chef2.png" },
-    { label: "Architecture", src: "assets/Image/Architect.png" },
-    { label: "Animation",    src: "assets/Image/Animator.png" },
-    { label: "Coding",       src: "assets/Image/coding.png" },
-];
+const interestImageMap = {
+    "Animating":       "assets/Image/animating0.png",
+    "Coding":          "assets/Image/coding0.png",
+    "Business":        "assets/Image/business0.png",
+    "Designing":       "assets/Image/designing0.png",
+    "Writing":         "assets/Image/writing0.png",
+    "Law":             "assets/Image/law0.png",
+    "Cooking":         "assets/Image/cooking0.png",
+    "Photography":     "assets/Image/photography0.png",
+    "Health & Safety": "assets/Image/health&safety0.png",
+    "Sports":          "assets/Image/sports0.png",
+    "Music":           "assets/Image/music0.png",
+    "Teaching":        "assets/Image/teaching0.png",
+    "Acting":          "assets/Image/acting0.png",
+    "Journalism":      "assets/Image/journalism0.png",
+    "Streaming":       "assets/Image/streaming0.png",
+};
 
-const saved = localStorage.getItem('userInterests');
-const interests = saved ? JSON.parse(saved) : defaultInterests;
+const interests = (typeof userInterestsFromDB !== 'undefined' && userInterestsFromDB.length > 0)
+    ? userInterestsFromDB.map(name => ({
+        label: name,
+        src: interestImageMap[name] || "assets/Image/coding0.png"
+      }))
+    : [{ label: "Explore", src: "assets/Image/coding0.png" }];
 
-let current = 1;
+let current = 0;
 let isAnimating = false;
 const total = interests.length;
-const totalDots = Math.max(1, total - 3 + 1);
 
 const leftImg   = document.getElementById('carousel-left');
 const centerImg = document.getElementById('carousel-center');
@@ -24,21 +36,23 @@ const btnRight  = document.getElementById('carousel-btn-right');
 
 function buildDots() {
     dotsWrap.innerHTML = '';
-    for (let i = 0; i < totalDots; i++) {
+    for (let i = 0; i < total; i++) {
         const dot = document.createElement('span');
         dot.style.display      = 'inline-block';
         dot.style.height       = '12px';
         dot.style.borderRadius = '9999px';
         dot.style.cursor       = 'pointer';
         dot.style.transition   = 'all 0.4s ease';
+        dot.addEventListener('click', () => {
+            if (i !== current) goTo(i, i > current ? 'right' : 'left');
+        });
         dotsWrap.appendChild(dot);
     }
 }
 
 function updateDots() {
-    const activeDot = current - 1;
     dotsWrap.querySelectorAll('span').forEach((dot, i) => {
-        if (i === activeDot) {
+        if (i === current) {
             dot.style.width           = '40px';
             dot.style.backgroundColor = '#1f2937';
         } else {
@@ -74,7 +88,7 @@ function goTo(newIndex, direction) {
     });
 
     setTimeout(() => {
-        current = newIndex;
+        current = (newIndex + total) % total;
         renderImages();
         updateDots();
 
@@ -98,12 +112,8 @@ function goTo(newIndex, direction) {
     }, 410);
 }
 
-btnLeft.addEventListener('click', () => {
-    goTo(current - 1 < 1 ? totalDots : current - 1, 'left');
-});
-btnRight.addEventListener('click', () => {
-    goTo(current + 1 > totalDots ? 1 : current + 1, 'right');
-});
+btnLeft.addEventListener('click',  () => goTo(current - 1, 'left'));
+btnRight.addEventListener('click', () => goTo(current + 1, 'right'));
 
 buildDots();
 renderImages();

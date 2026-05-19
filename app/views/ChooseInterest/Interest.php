@@ -1,3 +1,24 @@
+<?php
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /Login");
+    exit;
+}
+
+require_once '../app/config/connection.php';
+
+$user_id = $_SESSION['user_id'];
+
+$savedInterestQuery = mysqli_query($conn, "
+    SELECT i.name 
+    FROM user_interests ui
+    JOIN interests i ON ui.interest_id = i.id
+    WHERE ui.user_id = $user_id
+");
+$savedInterests = [];
+while ($row = mysqli_fetch_assoc($savedInterestQuery)) {
+    $savedInterests[] = $row['name'];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,11 +39,13 @@
         }
     </script>
     <style>
-        .interest-card.selected {
-            border: 3px solid black;
-        }
         .interest-card {
             border: 3px solid transparent;
+            transition: border 0.2s ease, opacity 0.2s ease;
+        }
+        .interest-card.selected {
+            border: 3px solid black;
+            opacity: 1;
         }
     </style>
 </head>
@@ -30,7 +53,7 @@
 
     <div class="w-full px-12 py-4">
 
-        <a href="/" class="block mb-4">
+        <a href="/Home" class="block mb-4">
             <img src="/assets/Image/backarrow.png" alt="Back" class="h-12">
         </a>
 
@@ -41,24 +64,27 @@
 
                 <?php
                 $interests = [
-                    ["name" => "Animating",      "img" => "animating0.png"],
-                    ["name" => "Coding",         "img" => "coding0.png"],
-                    ["name" => "Business",       "img" => "business0.png"],
-                    ["name" => "Designing",      "img" => "designing0.png"],
-                    ["name" => "Writing",        "img" => "writing0.png"],
-                    ["name" => "Law",            "img" => "law0.png"],
-                    ["name" => "Cooking",        "img" => "cooking0.png"],
-                    ["name" => "Photography",    "img" => "photography0.png"],
-                    ["name" => "Health & Safety","img" => "health&safety0.png"],
-                    ["name" => "Sports",         "img" => "sports0.png"],
-                    ["name" => "Music",          "img" => "music0.png"],
-                    ["name" => "Teaching",       "img" => "teaching0.png"],
-                    ["name" => "Acting",         "img" => "acting0.png"],
-                    ["name" => "Journalism",     "img" => "journalism0.png"],
-                    ["name" => "Streaming",      "img" => "streaming0.png"],
+                    ["name" => "Animating",       "img" => "animating0.png"],
+                    ["name" => "Coding",          "img" => "coding0.png"],
+                    ["name" => "Business",        "img" => "business0.png"],
+                    ["name" => "Designing",       "img" => "designing0.png"],
+                    ["name" => "Writing",         "img" => "writing0.png"],
+                    ["name" => "Law",             "img" => "law0.png"],
+                    ["name" => "Cooking",         "img" => "cooking0.png"],
+                    ["name" => "Photography",     "img" => "photography0.png"],
+                    ["name" => "Health & Safety", "img" => "health&safety0.png"],
+                    ["name" => "Sports",          "img" => "sports0.png"],
+                    ["name" => "Music",           "img" => "music0.png"],
+                    ["name" => "Teaching",        "img" => "teaching0.png"],
+                    ["name" => "Acting",          "img" => "acting0.png"],
+                    ["name" => "Journalism",      "img" => "journalism0.png"],
+                    ["name" => "Streaming",       "img" => "streaming0.png"],
                 ];
-                foreach($interests as $interest): ?>
-                <div class="interest-card rounded-2xl overflow-hidden cursor-pointer select-none"
+                foreach($interests as $interest):
+                    $isSelected = in_array($interest['name'], $savedInterests) ? 'selected' : '';
+                ?>
+                <div class="interest-card <?php echo $isSelected; ?> rounded-2xl overflow-hidden cursor-pointer select-none"
+                     data-name="<?php echo htmlspecialchars($interest['name']); ?>"
                      onclick="toggleInterest(this)">
                     <img src="/assets/Image/<?php echo $interest['img']; ?>"
                          alt="<?php echo $interest['name']; ?>"
@@ -73,12 +99,15 @@
         <div class="mt-6">
             <button onclick="proceed()"
                 class="w-full bg-[#93A89A] text-black font-semibold py-4 rounded-xl text-base hover:bg-[#7A8C80] transition">
-                Please pick atleast two of your interest to proceed
+                Save Interests
             </button>
         </div>
 
     </div>
 
+    <script>
+        const savedFromDB = <?php echo json_encode($savedInterests); ?>;
+    </script>
     <script src="/js/Interest.js"></script>
 
 </body>
