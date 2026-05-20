@@ -1,3 +1,28 @@
+<?php
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /Login");
+    exit;
+}
+
+require_once '../app/config/connection.php';
+
+$user_id = $_SESSION['user_id'];
+
+$query = mysqli_query($conn, "
+    SELECT c.id, c.title, c.image_url
+    FROM saved_careers sc
+    JOIN careers c ON sc.career_id = c.id
+    WHERE sc.user_id = $user_id
+");
+
+$savedCareers = [];
+while ($row = mysqli_fetch_assoc($query)) {
+    $savedCareers[] = $row;
+}
+
+$savedCount = count($savedCareers);
+$totalPages = (int) ceil($savedCount / 4);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +30,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saved Careers - Talent Track</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -31,8 +55,6 @@
         ::-webkit-scrollbar-thumb { background: #93A89A; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #7A8C80; }
 
-        .fill-active { fill: currentColor !important; }
-
         .career-card {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
@@ -40,52 +62,33 @@
             transform: translateY(-3px);
             box-shadow: 0 12px 28px rgba(0,0,0,0.12);
         }
-
-        .delete-mode .career-card {
-            position: relative;
-        }
-        .delete-mode .career-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(239,68,68,0.08);
-            border-radius: 1rem;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        .delete-mode .career-card.selected::after {
-            opacity: 1;
-        }
-        .delete-mode .career-card.selected {
+        .career-card.selected {
             border: 2.5px solid #ef4444 !important;
         }
-
-        .remove-badge {
-            display: none;
-        }
-        .delete-mode .remove-badge {
-            display: flex;
-        }
+        .remove-badge { display: none; }
+        .delete-mode .remove-badge { display: flex; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to   { opacity: 1; transform: translateY(0); }
         }
-        .career-card { animation: fadeIn 0.35s ease both; }
-        .career-card:nth-child(1) { animation-delay: 0.05s; }
-        .career-card:nth-child(2) { animation-delay: 0.10s; }
-        .career-card:nth-child(3) { animation-delay: 0.15s; }
-        .career-card:nth-child(4) { animation-delay: 0.20s; }
-        .career-card:nth-child(5) { animation-delay: 0.25s; }
-        .career-card:nth-child(6) { animation-delay: 0.30s; }
+        .page-fade { animation: fadeIn 0.3s ease both; }
 
-        .empty-state { animation: fadeIn 0.5s ease both; }
+        .dot {
+            width: 10px; height: 10px;
+            border-radius: 9999px;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .dot.active {
+            width: 28px;
+            background: #4b5563;
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-gray-800 min-h-screen flex flex-col">
 
-    <!-- Navbar -->
     <nav class="bg-sage text-white px-8 py-3 flex justify-between items-center sticky top-0 z-50 shadow-md">
         <div>
             <img src="/assets/Image/Logo.png" alt="Logo" class="h-8">
@@ -97,37 +100,26 @@
         </div>
     </nav>
 
-
     <main class="flex-1 w-full max-w-7xl mx-auto px-8 py-10">
-
 
         <div class="flex justify-between items-center mb-2">
             <a href="/Home">
                 <img src="/assets/Image/backarrow.png" alt="Back" class="h-10 hover:opacity-70 transition">
             </a>
-            <button id="delete-toggle-btn" onclick="toggleDeleteMode()"
-                class="flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-red-500 transition">
+            <button id="delete-toggle-btn" onclick="toggleDeleteMode()" class="hover:opacity-70 transition">
                 <img src="/assets/Image/trash.png" alt="Delete" class="h-8 hover:scale-110 transition">
             </button>
         </div>
 
-        <div class="flex justify-between items-end mb-8">
-            <div>
-                <h1 class="text-4xl font-extrabold text-black">Saved Careers</h1>
-                <p id="career-count" class="text-sage-dark font-semibold mt-1 text-sm"></p>
-            </div>
-            <div id="delete-hint" class="hidden text-red-500 text-sm font-semibold animate-pulse">
-
-            </div>
+        <div class="mb-8">
+            <h1 class="text-4xl font-extrabold text-black">Saved Careers</h1>
+            <p class="text-gray-500 font-semibold mt-1 text-sm">
+                <?php echo $savedCount; ?> career<?php echo $savedCount !== 1 ? 's' : ''; ?> saved
+            </p>
         </div>
 
-
-        <div id="career-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-
-        </div>
-
-
-        <div id="empty-state" class="hidden empty-state flex flex-col items-center justify-center py-28 text-center">
+        <?php if (empty($savedCareers)): ?>
+        <div class="flex flex-col items-center justify-center py-28 text-center">
             <div class="w-20 h-20 bg-sage/20 rounded-full flex items-center justify-center mb-5">
                 <svg class="w-10 h-10 text-sage" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
@@ -140,18 +132,48 @@
             </a>
         </div>
 
-        <!-- Delete Action Bar -->
+        <?php else: ?>
+
+        <!-- Slider wrapper -->
+        <div class="relative flex items-center">
+
+            <!-- Left Arrow -->
+            <button onclick="prevPage()" id="btn-prev" class="absolute -left-10 z-10 hover:opacity-70 transition">
+                <img src="/assets/Image/panah.png" alt="prev" class="w-8 h-8">
+            </button>
+
+            <!-- Career Grid -->
+            <div id="career-grid" class="grid grid-cols-4 gap-6 w-full delete-mode-container">
+            </div>
+
+            <!-- Right Arrow -->
+            <button onclick="nextPage()" id="btn-next" class="absolute -right-10 z-10 hover:opacity-70 transition">
+                <img src="/assets/Image/panah.png" alt="next" class="w-8 h-8 rotate-180">
+            </button>
+
+        </div>
+
+        <!-- Page indicator -->
+        <div class="mt-8 flex flex-col items-center gap-2">
+            <p id="page-label" class="text-sm text-gray-500 font-semibold"></p>
+            <div id="dots" class="flex gap-2 items-center"></div>
+        </div>
+
+        <!-- Delete action bar -->
         <div id="delete-bar" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
             <button onclick="deleteSelected()"
                 class="bg-red-500 hover:bg-red-600 text-white font-bold px-10 py-4 rounded-xl shadow-2xl transition text-base flex items-center gap-3">
-                <i class="fa-solid fa-trash-can"></i>
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
                 <span id="delete-bar-label">Remove Selected</span>
             </button>
         </div>
 
+        <?php endif; ?>
+
     </main>
 
-    <!-- Footer -->
     <footer class="bg-sage pt-12 pb-6 px-8 text-center text-white flex flex-col items-center mt-auto">
         <div class="mb-6">
             <img src="/assets/Image/Logo.png" alt="Logo" class="h-10 mx-auto">
@@ -180,79 +202,40 @@
     </footer>
 
     <script>
+        const allCareers  = <?php echo json_encode($savedCareers); ?>;
+        const totalPages  = <?php echo $totalPages; ?>;
+        const perPage     = 4;
+        let currentPage   = 0;
+        let deleteMode    = false;
 
-        const ALL_CAREERS = [
-            { id: 1,  title: "Chef",              img: "/assets/Image/Chef.png" },
-            { id: 2,  title: "Animator",          img: "/assets/Image/Animator.png" },
-            { id: 3,  title: "Athlete",           img: "/assets/Image/Athlete.png" },
-            { id: 4,  title: "Programmer",        img: "/assets/Image/programmer2.png" },
-            { id: 5,  title: "Sales Executive",   img: "/assets/Image/sales&executive1.png" },
-            { id: 6,  title: "Designer",          img: "/assets/Image/designer1.png" },
-            { id: 7,  title: "Writer",            img: "/assets/Image/writer1.png" },
-            { id: 8,  title: "Lawyer",            img: "/assets/Image/lawyer1.png" },
-            { id: 9,  title: "Photographer",      img: "/assets/Image/photographer1.png" },
-            { id: 10, title: "Industrial Expert", img: "/assets/Image/industrialexpert1.png" },
-            { id: 11, title: "Musician",          img: "/assets/Image/musician1.png" },
-            { id: 12, title: "Teacher",           img: "/assets/Image/teacher1.png" },
-            { id: 13, title: "Actor/Actress",     img: "/assets/Image/actoractress1.png" },
-            { id: 14, title: "Journalist",        img: "/assets/Image/journalist1.png" },
-            { id: 15, title: "Streamer",          img: "/assets/Image/streamer1.png" },
-        ];
-
-
-        function getSavedIds() {
-            try {
-                return JSON.parse(localStorage.getItem('savedCareers') || '[]');
-            } catch { return []; }
-        }
-        function setSavedIds(ids) {
-            localStorage.setItem('savedCareers', JSON.stringify(ids));
-        }
-
-        // Seed some defaults for demo if empty
-        if (getSavedIds().length === 0) {
-            setSavedIds([1, 2, 3, 4]);
-        }
-
-        let deleteMode = false;
-
-        function render() {
-            const savedIds = getSavedIds();
-            const grid     = document.getElementById('career-grid');
-            const empty    = document.getElementById('empty-state');
-            const countEl  = document.getElementById('career-count');
+        function renderPage() {
+            const grid  = document.getElementById('career-grid');
+            const start = currentPage * perPage;
+            const slice = allCareers.slice(start, start + perPage);
 
             grid.innerHTML = '';
+            grid.className = `grid gap-6 w-full ${deleteMode ? 'delete-mode-container' : ''}`;
 
-            if (savedIds.length === 0) {
-                empty.classList.remove('hidden');
-                countEl.textContent = '';
-                return;
-            }
+            grid.style.gridTemplateColumns = `repeat(4, minmax(0, 1fr))`;
 
-            empty.classList.add('hidden');
-            countEl.textContent = savedIds.length + ' career' + (savedIds.length !== 1 ? 's' : '') + ' saved';
-
-            savedIds.forEach(id => {
-                const career = ALL_CAREERS.find(c => c.id === id);
-                if (!career) return;
-
-                const card = document.createElement('div');
-                card.className = 'career-card rounded-2xl overflow-hidden border-2 border-transparent cursor-pointer select-none bg-white shadow-md';
+            slice.forEach(career => {
+                const img   = career.image_url || 'Chef.png';
+                const card  = document.createElement('div');
+                card.className = 'career-card rounded-2xl overflow-hidden border-2 border-transparent cursor-pointer select-none bg-white shadow-md page-fade';
                 card.dataset.id = career.id;
-                card.onclick = () => deleteMode ? toggleSelect(card) : goToDetail(career.id);
+                card.onclick = () => deleteMode ? toggleSelect(card) : (window.location.href = '/detail/' + career.id);
 
                 card.innerHTML = `
                     <div class="relative">
-                        <img src="${career.img}"
+                        <img src="/assets/Image/${img}"
                              alt="${career.title}"
                              class="w-full h-44 object-cover"
-                             onerror="this.src='https://placehold.co/400x300/93A89A/ffffff?text=${encodeURIComponent(career.title)}'">
-                        <!-- Remove badge (delete mode only) -->
-                        <div class="remove-badge absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 items-center justify-center shadow-lg">
-                            <i class="fa-solid fa-minus text-xs"></i>
+                             onerror="this.src='/assets/Image/Chef.png'">
+                        <div class="remove-badge ${deleteMode ? 'flex' : 'hidden'} absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 items-center justify-center shadow-lg">
+                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/>
+                            </svg>
                         </div>
-                        <!-- Bookmark icon -->
                         <div class="absolute top-2 left-2 bg-white/80 backdrop-blur-sm rounded-full w-8 h-8 flex items-center justify-center shadow">
                             <svg class="w-4 h-4 text-sage fill-current" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
@@ -268,33 +251,46 @@
                         </a>
                     </div>
                 `;
-
                 grid.appendChild(card);
             });
 
-            updateDeleteBar();
+            // Update page label
+            document.getElementById('page-label').textContent =
+                `Page ${currentPage + 1} of ${totalPages}`;
+
+            // Update dots
+            const dotsEl = document.getElementById('dots');
+            dotsEl.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'dot' + (i === currentPage ? ' active' : '');
+                dot.onclick = () => goToPage(i);
+                dotsEl.appendChild(dot);
+            }
+
+            // Show/hide arrows
+            document.getElementById('btn-prev').style.visibility = currentPage === 0 ? 'hidden' : 'visible';
+            document.getElementById('btn-next').style.visibility = currentPage === totalPages - 1 ? 'hidden' : 'visible';
         }
 
-        function goToDetail(id) {
-            window.location.href = '/detail/' + id;
+        function goToPage(page) {
+            currentPage = page;
+            renderPage();
         }
 
+        function prevPage() {
+            if (currentPage > 0) { currentPage--; renderPage(); }
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages - 1) { currentPage++; renderPage(); }
+        }
 
         function toggleDeleteMode() {
             deleteMode = !deleteMode;
-            const grid    = document.getElementById('career-grid');
-            const hint    = document.getElementById('delete-hint');
-            const bar     = document.getElementById('delete-bar');
-
-            if (deleteMode) {
-                grid.classList.add('delete-mode');
-                hint.classList.remove('hidden');
-            } else {
-                grid.classList.remove('delete-mode');
-                hint.classList.add('hidden');
-                bar.classList.add('hidden');
-                // Deselect all
-                document.querySelectorAll('.career-card.selected').forEach(c => c.classList.remove('selected'));
+            renderPage();
+            if (!deleteMode) {
+                document.getElementById('delete-bar').classList.add('hidden');
             }
         }
 
@@ -307,7 +303,6 @@
             const selected = document.querySelectorAll('.career-card.selected');
             const bar      = document.getElementById('delete-bar');
             const label    = document.getElementById('delete-bar-label');
-
             if (selected.length > 0 && deleteMode) {
                 bar.classList.remove('hidden');
                 label.textContent = 'Remove ' + selected.length + ' Career' + (selected.length !== 1 ? 's' : '');
@@ -318,19 +313,22 @@
 
         function deleteSelected() {
             const selected = document.querySelectorAll('.career-card.selected');
-            const idsToRemove = Array.from(selected).map(c => parseInt(c.dataset.id));
-            const savedIds    = getSavedIds().filter(id => !idsToRemove.includes(id));
-            setSavedIds(savedIds);
+            const ids = Array.from(selected).map(c => parseInt(c.dataset.id));
 
-            // Exit delete mode and re-render
-            deleteMode = false;
-            document.getElementById('career-grid').classList.remove('delete-mode');
-            document.getElementById('delete-hint').classList.add('hidden');
-            document.getElementById('delete-bar').classList.add('hidden');
-            render();
+            fetch('/unsaveCareers', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ career_ids: ids })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            });
         }
 
-        render();
+        renderPage();
     </script>
 
 </body>

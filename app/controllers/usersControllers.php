@@ -108,8 +108,15 @@ class usersControllers
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['user_email'] = $user['email'];
 
-        header("Location: /Interest");
+        $checkInterest = mysqli_query($conn, "SELECT id FROM user_interests WHERE user_id = " . $user['id'] . " LIMIT 1");
+
+        if (mysqli_num_rows($checkInterest) > 0) {
+            header("Location: /Home");
+        } else {
+            header("Location: /Interest");
+        }
         exit;
+
     }
 
         public function logout()

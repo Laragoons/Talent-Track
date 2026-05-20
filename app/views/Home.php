@@ -21,22 +21,22 @@ while ($row = mysqli_fetch_assoc($interestQuery)) {
 }
 
 $interestToCareer = [
-    'Animating'      => 'Animator',
-    'Coding'         => 'Programmer',
-    'Business'       => 'Sales Executive',
-    'Designing'      => 'Designer',
-    'Writing'        => 'Writer',
-    'Law'            => 'Lawyer',
-    'Cooking'        => 'Chef',
-    'Photography'    => 'Photographer',
-    'Health&Safety'  => 'Doctor',
-    'Health & Safety'=> 'Doctor',
-    'Sports'         => 'Athlete',
-    'Music'          => 'Musician',
-    'Teaching'       => 'Teacher',
-    'Acting'         => 'Actor/Actress',
-    'Journalism'     => 'Journalist',
-    'Streaming'      => 'Streamer',
+    'Animating'       => 'Animator',
+    'Coding'          => 'Programmer',
+    'Business'        => 'Sales Executive',
+    'Designing'       => 'Designer',
+    'Writing'         => 'Writer',
+    'Law'             => 'Lawyer',
+    'Cooking'         => 'Chef',
+    'Photography'     => 'Photographer',
+    'Health&Safety'   => 'Doctor',
+    'Health & Safety' => 'Doctor',
+    'Sports'          => 'Athlete',
+    'Music'           => 'Musician',
+    'Teaching'        => 'Teacher',
+    'Acting'          => 'Actor/Actress',
+    'Journalism'      => 'Journalist',
+    'Streaming'       => 'Streamer',
 ];
 
 $matchedCareerTitles = [];
@@ -106,17 +106,26 @@ while ($row = mysqli_fetch_assoc($savedQuery)) {
         ::-webkit-scrollbar-thumb:hover { background: #7A8C80; }
         .fill-active { fill: currentColor !important; }
         #carousel-left, #carousel-center, #carousel-right { will-change: opacity, transform; }
-        #save-toast {
-            display: flex;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #305549;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.875rem;
             opacity: 0;
             pointer-events: none;
-            transform: translate(-50%, 10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 50;
         }
-        #save-toast.show {
+        .toast.show {
             opacity: 1;
-            pointer-events: auto;
-            transform: translate(-50%, 0);
+            transform: translateX(-50%) translateY(0);
         }
     </style>
 </head>
@@ -127,11 +136,11 @@ while ($row = mysqli_fetch_assoc($savedQuery)) {
             <img src="assets/Image/Logo.png" alt="Logo" class="h-8">
         </div>
         <div class="flex items-center space-x-3">
-            <a href="/Saved" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">
-                Saved
-            </a>
             <a href="/Profile">
                 <img src="assets/Image/userimg.png" alt="User Profile" class="w-9 h-9 rounded-full">
+            </a>
+            <a href="/Saved" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">
+                Saved
             </a>
             <a href="/logout" class="border border-white text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-white hover:text-sage transition">
                 Logout
@@ -151,14 +160,14 @@ while ($row = mysqli_fetch_assoc($savedQuery)) {
     <section class="bg-sage py-12 px-8">
         <h2 class="text-center text-4xl font-bold text-white mb-10">These are your interest</h2>
         <div class="flex justify-center items-center relative max-w-5xl mx-auto gap-6">
-            <button id="carousel-btn-left" class="text-black text-3xl hover:text-white transition absolute left-0 z-10 select-none">
-                <i class="fa-solid fa-chevron-left"></i>
+            <button id="carousel-btn-left" class="transition absolute left-0 z-10 select-none hover:opacity-70">
+                <img src="/assets/Image/panah.png" alt="prev" class="w-8 h-8">
             </button>
             <img id="carousel-left"   src="" alt="" class="w-64 h-64 object-cover rounded-xl transform scale-90 flex-shrink-0">
             <img id="carousel-center" src="" alt="" class="w-80 h-80 object-cover rounded-xl transform scale-105 z-10 flex-shrink-0">
             <img id="carousel-right"  src="" alt="" class="w-64 h-64 object-cover rounded-xl transform scale-90 flex-shrink-0">
-            <button id="carousel-btn-right" class="text-black text-3xl hover:text-white transition absolute right-0 z-10 select-none">
-                <i class="fa-solid fa-chevron-right"></i>
+            <button id="carousel-btn-right" class="transition absolute right-0 z-10 select-none hover:opacity-70">
+                <img src="/assets/Image/panah.png" alt="next" class="w-8 h-8 rotate-180">
             </button>
         </div>
         <div id="carousel-dots" class="flex justify-center mt-8 space-x-3 items-center"></div>
@@ -190,19 +199,15 @@ while ($row = mysqli_fetch_assoc($savedQuery)) {
                         <h3 class="text-3xl font-extrabold text-black tracking-tight">
                             <?php echo htmlspecialchars($career['title']); ?>
                         </h3>
-                        <div class="flex space-x-4 text-2xl text-black">
-                            <form method="POST" action="/toggleSave" style="display:inline">
-                                <input type="hidden" name="career_id" value="<?php echo $career['id']; ?>">
-                                <button
-                                    type="submit"
-                                    class="btn-save transition-transform hover:scale-110 active:scale-95 hover:text-yellow-600 <?php echo $isSaved ? 'text-yellow-600' : ''; ?>"
-                                    aria-label="Save <?php echo htmlspecialchars($career['title']); ?>">
-                                    <svg class="w-7 h-7 stroke-current bookmark-icon <?php echo $isSaved ? 'fill-active' : 'fill-none'; ?>" viewBox="0 0 24 24" stroke-width="2.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
+                        <button
+                            type="button"
+                            onclick="toggleSave(this, <?php echo $career['id']; ?>)"
+                            class="btn-save transition-transform hover:scale-110 active:scale-95 hover:text-yellow-600 <?php echo $isSaved ? 'text-yellow-600' : ''; ?>"
+                            aria-label="Save <?php echo htmlspecialchars($career['title']); ?>">
+                            <svg class="w-7 h-7 stroke-current bookmark-icon <?php echo $isSaved ? 'fill-active' : 'fill-none'; ?>" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                            </svg>
+                        </button>
                     </div>
                     <p class="text-white text-sm md:text-base leading-snug line-clamp-5">
                         <?php echo htmlspecialchars($career['description']); ?>
@@ -251,10 +256,46 @@ while ($row = mysqli_fetch_assoc($savedQuery)) {
         </div>
     </footer>
 
+    <div id="toast" class="toast"></div>
+
     <script>
-        const savedFromDB = <?php echo json_encode($savedIds); ?>;
+        const savedFromDB         = <?php echo json_encode($savedIds); ?>;
         const userInterestsFromDB = <?php echo json_encode($userInterests); ?>;
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+
+        function toggleSave(btn, careerId) {
+            const svg     = btn.querySelector('svg');
+            const isSaved = svg.classList.contains('fill-active');
+
+            fetch('/toggleSaveAjax', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ career_id: careerId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.saved) {
+                        svg.classList.add('fill-active');
+                        btn.classList.add('text-yellow-600');
+                        showToast('Career saved!');
+                    } else {
+                        svg.classList.remove('fill-active');
+                        btn.classList.remove('text-yellow-600');
+                        showToast('Removed from saved.');
+                    }
+                }
+            })
+            .catch(() => showToast('Something went wrong.'));
+        }
     </script>
+
     <script src="/js/home.js"></script>
 
 </body>
