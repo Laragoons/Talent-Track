@@ -90,6 +90,9 @@ Proyek ini menggunakan 5 entitas utama:
 
 ---
 
-## Kontributor
+## Kontributor (Kelompok 5)
 
-- Laragoons Team
+- Axelle Questine Farrell Then
+- Charles
+- Elvan Emmanuel Firdellia
+- Ryo Marvel
